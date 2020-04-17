@@ -22,11 +22,26 @@ class MyTestCase(unittest.TestCase):
                              'S': '11111'}
 
         huffman_encoder = HuffmanEncoder(frequencies)
-        huffman_encoding = huffman_encoder.encode()
+        huffman_encoding, huffman_decoding = huffman_encoder.generate_coding()
 
         print(huffman_encoding)
 
         self.assertEqual(expected_encoding, huffman_encoding)
+
+    def test_something_2(self):
+        frequencies = {'C': 2,
+                       'B': 6,
+                       'E': 7,
+                       '_': 10,
+                       'D': 10,
+                       'A': 11}
+
+        huffman_encoder = HuffmanEncoder(frequencies)
+        huffman_encoding, huffman_decoding = huffman_encoder.generate_coding()
+
+        print(huffman_encoding)
+
+        # self.assertEqual(expected_encoding, huffman_encoding)
 
 
 if __name__ == '__main__':

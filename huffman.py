@@ -1,4 +1,35 @@
+import sys
 from heap import MinHeap
+
+
+def get_frequencies(text):
+    frequencies = {}
+    for i in text:
+        if i in frequencies:
+            frequencies[i] = frequencies[i] + 1
+        else:
+            frequencies[i] = 1
+
+    return frequencies
+
+
+def encode(text, coding):
+    output = ''
+    for i in text:
+        output += coding[i]
+    return output
+
+
+def decode(encoded, coding):
+    buffer = ''
+    output = ''
+    for i in encoded:
+        buffer += i
+        if buffer in coding:
+            output += coding[buffer]
+            buffer = ''
+
+    return output
 
 
 class HuffmanEncoder:
@@ -12,23 +43,25 @@ class HuffmanEncoder:
         for i in self.frequencies.keys():
             self.nodes.insert(Node(self.frequencies[i], None, None, i))
 
-    def encode(self):
+    def generate_coding(self):
         d = {}
+        e = {}
         tree = self.construct_huffman_tree()
-        self.encode_huffman_tree_r(tree, d)
-        return d
+        self.encode_huffman_tree_r(tree, d, e)
+        return d, e
 
-    def encode_huffman_tree_r(self, node, d, val=''):
+    def encode_huffman_tree_r(self, node, d, e, val=''):
         if node.right is None and node.left is None:
             d[node.character] = val
+            e[val] = node.character
 
         if node.left is not None:
-            self.encode_huffman_tree_r(node.left, d, val + '0')
+            self.encode_huffman_tree_r(node.left, d, e, val + '0')
 
         if node.right is not None:
-            self.encode_huffman_tree_r(node.right, d, val + '1')
+            self.encode_huffman_tree_r(node.right, d, e, val + '1')
 
-        return d
+        return d, e
 
     def construct_huffman_tree(self):
         self.to_nodes()
@@ -70,3 +103,27 @@ class Node:
             return self.character + self.value
         else:
             return self.value
+
+
+def main():
+    command = sys.argv[1]
+
+    if command == 'encode' or command == 'e':
+        input_text = sys.argv[2]
+        character_frequencies = get_frequencies(input_text)
+        huffman_encoder = HuffmanEncoder(character_frequencies)
+        coding_dict, decoding_dict = huffman_encoder.generate_coding()
+
+        encoded_text = encode(input_text, coding_dict)
+        print(encoded_text)
+
+    elif command == 'dict' or command == 'd':
+        input_text = sys.argv[2]
+        character_frequencies = get_frequencies(input_text)
+        huffman_encoder = HuffmanEncoder(character_frequencies)
+        coding_dict, decoding_dict = huffman_encoder.generate_coding()
+        print(str(coding_dict))
+
+
+if __name__ == '__main__':
+    main()
