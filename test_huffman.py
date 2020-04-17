@@ -13,17 +13,34 @@ class MyTestCase(unittest.TestCase):
                        'P': 13,
                        '\\n': 1}
 
-        expected = {'I': '00', 'P': '01', 'E': '10', 'A': '110', 'T': '1110', '\\n': '11110', 'S': '11111'}
+        expected_encoding = {'I': '00',
+                             'P': '01',
+                             'E': '10',
+                             'A': '110',
+                             'T': '1110',
+                             '\\n': '11110',
+                             'S': '11111'}
 
-        encoder = HuffmanEncoder(frequencies)
-        huffman_tree = encoder.construct_huffman_tree()
-
-        huffman_encoding = {}
-        encoder.encode_huffman_tree_r(huffman_tree, huffman_encoding)
+        huffman_encoder = HuffmanEncoder(frequencies)
+        huffman_encoding = huffman_encoder.encode()
 
         print(huffman_encoding)
 
-        self.assertEqual(expected, huffman_encoding)
+        self.assertEqual(expected_encoding, huffman_encoding)
+
+    def test_something_again(self):
+        frequencies = {'H': 1,
+                       'E': 1,
+                       'L': 3,
+                       'O': 2,
+                       ' ': 1,
+                       'R': 1,
+                       'D': 1}
+
+        huffman_encoder = HuffmanEncoder(frequencies)
+        huffman_encoding = huffman_encoder.encode()
+
+        print(huffman_encoding)
 
 
 if __name__ == '__main__':
