@@ -1,15 +1,6 @@
-def find_smallest_subtree(trees):
-    smallest = trees[0]
-    for i in range(1, len(trees)):
-        if trees[i].value < smallest.value:
-            smallest = trees[i]
-
-    return smallest
-
-
 class HuffmanEncoder:
     frequencies = {}
-    nodes = [] # todo use a priority queue instead
+    nodes = []  # todo use a priority queue instead
 
     def __init__(self, frequencies):
         self.frequencies = frequencies
@@ -21,7 +12,7 @@ class HuffmanEncoder:
 
     def encode(self):
         d = {}
-        tree = self.construct_huffman_tree_2()
+        tree = self.construct_huffman_tree()
         self.encode_huffman_tree_r(tree, d)
         return d
 
@@ -37,7 +28,7 @@ class HuffmanEncoder:
 
         return d
 
-    def construct_huffman_tree_2(self):
+    def construct_huffman_tree(self):
         self.to_nodes()
 
         t = Node(0)
