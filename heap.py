@@ -1,8 +1,5 @@
-import enum
-
-
 def get_left_child_index(parent_i):
-    return (parent_i * 2) + 2
+    return (parent_i * 2) + 1
 
 
 def get_parent_index(child_i):
@@ -10,7 +7,7 @@ def get_parent_index(child_i):
 
 
 def get_right_child_index(parent_i):
-    return (parent_i * 2) + 1
+    return (parent_i * 2) + 2
 
 
 def has_parent(child_i):
@@ -19,15 +16,16 @@ def has_parent(child_i):
 
 class MinHeap:
     heap = []
+    size = 0
 
     def __init__(self):
         pass
 
     def has_right_child(self, parent_i):
-        return (parent_i * 2) + 1 < len(self.heap)
+        return (parent_i * 2) + 2 < len(self.heap)
 
     def has_left_child(self, parent_i):
-        return (parent_i * 2) + 2 < len(self.heap)
+        return (parent_i * 2) + 1 < len(self.heap)
 
     def get_parent(self, index):
         if not has_parent(index):
@@ -58,6 +56,9 @@ class MinHeap:
         else:
             return None
 
+    def length(self):
+        return self.size
+
     def pop(self):
         if len(self.heap) == 0:
             return None
@@ -65,6 +66,10 @@ class MinHeap:
         popped = self.heap[0]
         last_element = self.heap[self.last()]
         del self.heap[self.last()]
+        self.size -= 1
+
+        if self.size == 0:
+            return popped
 
         self.heap[0] = last_element
 
@@ -73,6 +78,7 @@ class MinHeap:
 
     def insert(self, element):
         self.heap.append(element)
+        self.size += 1
         self.heapify_up()
 
     def last(self):
@@ -82,11 +88,13 @@ class MinHeap:
         index = 0
         while self.has_left_child(index):
             if self.get_left_child(index) < self.heap[index] \
-                    and self.get_left_child(index) < self.get_right_child(index):
+                    and \
+                    (self.get_right_child(index) is None or self.get_left_child(index) < self.get_right_child(index)):
                 self.swap(get_left_child_index(index), index)
                 index = get_left_child_index(index)
 
-            elif self.get_right_child(index) < self.heap[index]:
+            elif self.get_right_child(index) is not None and \
+                    self.get_right_child(index) < self.heap[index]:
                 self.swap(get_right_child_index(index), index)
                 index = get_right_child_index(index)
 

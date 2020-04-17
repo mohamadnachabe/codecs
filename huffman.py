@@ -1,14 +1,16 @@
+from heap import MinHeap
+
+
 class HuffmanEncoder:
     frequencies = {}
-    nodes = []  # todo use a priority queue instead
 
     def __init__(self, frequencies):
         self.frequencies = frequencies
+        self.nodes = MinHeap()
 
     def to_nodes(self):
-        self.nodes = []
         for i in self.frequencies.keys():
-            self.nodes.append(Node(self.frequencies[i], None, None, i))
+            self.nodes.insert(Node(self.frequencies[i], None, None, i))
 
     def encode(self):
         d = {}
@@ -32,20 +34,17 @@ class HuffmanEncoder:
         self.to_nodes()
 
         t = Node(0)
-        while len(self.nodes) != 1:
-            self.nodes = sorted(self.nodes)
+        while self.nodes.length() != 1:
 
-            left = self.nodes[0]
-            right = self.nodes[1]
+            left = self.nodes.pop()
+            right = self.nodes.pop()
 
             if right.character is not None and left.character is None:
                 t = Node(left.value + right.value, right, left)
             else:
                 t = Node(left.value + right.value, left, right)
 
-            self.nodes.remove(left)
-            self.nodes.remove(right)
-            self.nodes.append(t)
+            self.nodes.insert(t)
 
         return t
 
@@ -58,7 +57,7 @@ class Node:
         self.right = right
 
     def __lt__(self, other):
-        if self.value == other.value and self.character is not None and other.value is not None:
+        if self.value == other.value and self.character is not None and other.character is not None:
             return ord(self.character) < ord(other.character)
         else:
             return self.value < other.value

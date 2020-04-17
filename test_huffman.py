@@ -28,20 +28,6 @@ class MyTestCase(unittest.TestCase):
 
         self.assertEqual(expected_encoding, huffman_encoding)
 
-    def test_something_again(self):
-        frequencies = {'H': 1,
-                       'E': 1,
-                       'L': 3,
-                       'O': 2,
-                       ' ': 1,
-                       'R': 1,
-                       'D': 1}
-
-        huffman_encoder = HuffmanEncoder(frequencies)
-        huffman_encoding = huffman_encoder.encode()
-
-        print(huffman_encoding)
-
 
 if __name__ == '__main__':
     unittest.main()
