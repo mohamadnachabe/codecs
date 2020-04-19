@@ -117,7 +117,7 @@ def main():
         encoded_text = encode(input_text, coding_dict)
         print(encoded_text)
 
-    elif command == 'dict' or command == 'd':
+    elif command == 'table' or command == 't':
         input_text = sys.argv[2]
         character_frequencies = get_frequencies(input_text)
         huffman_encoder = HuffmanEncoder(character_frequencies)
